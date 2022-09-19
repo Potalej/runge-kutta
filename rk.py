@@ -82,7 +82,7 @@ class RK:
         instante = t + self.h * self.c[r] # t + h c_r
         termos_y = [
             y[i] + self.h * sum ( self.a[r][s] * self.kappa(f, t, y, s) for s in range(r-1) )
-            for i in range(self.n - 1)
+            for i in range(self.n)
         ]
 
         return f(instante, *termos_y)
@@ -105,7 +105,7 @@ class RK:
         """
         tk1 = tk + self.h # acréscimo no instante
         yk1 = [
-            yk[i] * self.h * self.phi(self.f[i], tk, yk) for i in range(self.n - 1)
+            yk[i] + self.h * self.phi(self.f[i], tk, yk) for i in range(self.n)
         ]
         return tk1, yk1
 
@@ -131,6 +131,6 @@ class RK:
 
         while True:
             tk, yk = self.yk1(tk, yk) # calcula
-            pontos += [tk, *yk] # salva    
-            if round(tk, self.qntdCasasArredondamento) >= self.tf: break
+            pontos += [[tk, *yk]] # salva    
+            if round(tk, self.qntdCasasArredondamento) >= tf: break
         return pontos
